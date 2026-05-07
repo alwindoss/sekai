@@ -9,6 +9,7 @@ templ Default(content templ.Component, data *data.PageData) {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            @partials.CSS()
 			<title>{ data.Title }</title>
 		</head>
 		<body>

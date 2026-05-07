@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  GREETING: Hello, world!
+
+tasks:
+  default:
+    desc: Print a greeting message
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+  build-ui:
+    cmds:
+      - npx @tailwindcss/cli -i ./frontend/assets/styles/input.css -o ./public/styles/output.css
+  build-backend:
+    cmds:
+      - go build -o ./bin/sekai .
+  generate:
+    cmds:
+      - go tool templ generate
+  build:
+    cmds:
+      - task: build-ui
+      - task: generate
+      - task: build-backend
+  
+  run:
+    cmd: ./bin/sekai
+
+  frontend-watch:
+    cmds:
+      - npx @tailwindcss/cli -i ./frontend/assets/styles/input.css -o ./public/styles/output.css --watch
+  templ-watch:
+    cmds:
+      - go tool templ generate --watch
+  backend-watch:
+    cmds:
+      - go tool air
+  dev:
+    desc: Run the application in dev mode
+    deps:
+      - task: frontend-watch
+      - task: templ-watch
+      - task: backend-watch

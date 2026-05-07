@@ -1,6 +1,8 @@
 package main
 
 import (
+	"embed"
+	"io/fs"
 	"net/http"
 	"sekai/data"
 	"sekai/templates/layouts"
@@ -11,6 +13,9 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 )
 
+//go:embed public/*
+var embedFS embed.FS
+
 func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -20,5 +25,7 @@ func main() {
 	r.Get("/about", templ.Handler(layouts.Default(pages.About(), &data.PageData{
 		Title: "About",
 	})).ServeHTTP)
+	publicFS, _ := fs.Sub(embedFS, "public")
+	r.Handle("/public/*", http.StripPrefix("/public", http.FileServer(http.FS(publicFS))))
 	http.ListenAndServe(":3000", r)
 }
