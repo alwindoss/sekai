@@ -34,3 +34,4 @@ go.work.sum
 # My ignores
 node_modules/
 bin/
+tmp/
