@@ -5,6 +5,7 @@ import (
 	"io/fs"
 	"net/http"
 	"sekai/data"
+	"sekai/templates/components"
 	"sekai/templates/layouts"
 	"sekai/templates/pages"
 
@@ -25,6 +26,7 @@ func main() {
 	r.Get("/about", templ.Handler(layouts.Default(pages.About(), &data.PageData{
 		Title: "About",
 	})).ServeHTTP)
+	r.Post("/clicked", templ.Handler(components.TimeNow()).ServeHTTP)
 	publicFS, _ := fs.Sub(embedFS, "public")
 	r.Handle("/public/*", http.StripPrefix("/public", http.FileServer(http.FS(publicFS))))
 	http.ListenAndServe(":3000", r)
