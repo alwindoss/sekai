@@ -1,13 +1,13 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"sekai/data"
 	"sekai/templates/layouts"
 	"sekai/templates/pages"
 	"time"
 
+	"github.com/a-h/templ"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -92,6 +92,7 @@ func (ph *PageHandler) LoginFormHandler(w http.ResponseWriter, r *http.Request) 
 		SameSite: http.SameSiteLaxMode,
 		Secure:   true,
 	})
+
 	// http.RedirectHandler("/pages/welcome", http.StatusPermanentRedirect)
 	http.Redirect(w, r, "/pages/welcome", http.StatusSeeOther)
 }
@@ -137,5 +138,39 @@ func (ph *PageHandler) WelcomePageHandler(w http.ResponseWriter, r *http.Request
 	}
 	// Finally, return the welcome message to the user, along with their
 	// username given in the token
-	w.Write([]byte(fmt.Sprintf("Welcome %s!", claims.Username)))
+	// w.Write([]byte(fmt.Sprintf("Welcome %s!", claims.Username)))
+	services := []pages.AppService{
+		{
+			Name:        "Car Management",
+			Description: "Maintenance logs, fuel tracking, and insurance.",
+			Icon:        "🚗",
+			Link:        "/cars",
+			Status:      "Up to date",
+		},
+		{
+			Name:        "Finance",
+			Description: "Monthly budget and investment tracking.",
+			Icon:        "💰",
+			Link:        "/finance",
+			Status:      "Review needed",
+		},
+		{
+			Name:        "Reminders",
+			Description: "Filter changes, trash day, and meds.",
+			Icon:        "🔔",
+			Link:        "/reminders",
+			Status:      "3 active",
+		},
+		{
+			Name:        "Smart Home",
+			Description: "Control lights, locks, and thermostats.",
+			Icon:        "🏠",
+			Link:        "/home-iot",
+			Status:      "Online",
+		},
+	}
+	templ.Handler(layouts.Default(pages.HomePage(services), &data.PageData{
+		Title: "About",
+	})).ServeHTTP(w, r)
+
 }
