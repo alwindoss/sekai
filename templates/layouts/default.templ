@@ -2,6 +2,7 @@ package layouts
 
 import "sekai/templates/partials"
 import "sekai/data"
+import "sekai/templates/components"
 
 templ Default(content templ.Component, data *data.PageData) {
 	<!DOCTYPE html>
@@ -14,10 +15,10 @@ templ Default(content templ.Component, data *data.PageData) {
 			<title>{ data.Title }</title>
 		</head>
 		<body>
-			<div id="heading">
-				@partials.Header()
-			</div>
-            <h1>From the layout</h1>
+			@components.Navbar()
+			// <div id="heading">
+			// 	@partials.Header()
+			// </div>
 			<div id="contents">
 				@content
 			</div>

@@ -3,8 +3,11 @@ package main
 import (
 	"embed"
 	"io/fs"
+	"log"
+	"net"
 	"net/http"
 	"sekai/data"
+	"sekai/internal/server"
 	"sekai/templates/components"
 	"sekai/templates/layouts"
 	"sekai/templates/pages"
@@ -18,6 +21,13 @@ import (
 var embedFS embed.FS
 
 func main() {
+	cfg := new(server.Config)
+	cfg.Addr = net.JoinHostPort("", "9090")
+	cfg.FS = embedFS
+	log.Fatal(server.Start(cfg))
+}
+
+func main1() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Get("/", templ.Handler(layouts.Default(pages.Index(), &data.PageData{
