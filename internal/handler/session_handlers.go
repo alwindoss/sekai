@@ -12,6 +12,7 @@ import (
 var users = map[string]string{
 	"user1": "password1",
 	"user2": "password2",
+	"sekai": "password@123",
 }
 
 // Create a struct to read the username and password from the request body

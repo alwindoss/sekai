@@ -40,8 +40,9 @@ func Start(cfg *Config) error {
 	// we will implement these handlers in the next sections
 	r.Get("/", pgHdlr.HomePageHandler)
 	r.Get("/about", pgHdlr.AboutPageHandler)
-	r.Get("/pages/welcome", pgHdlr.WelcomeHandler)
+	r.Get("/pages/welcome", pgHdlr.WelcomePageHandler)
 	r.Get("/pages/login", pgHdlr.LoginPageHandler)
+	r.Post("/pages/login", pgHdlr.LoginFormHandler)
 
 	r.Post("/sessions/login", hdlr.LoginHandler)
 	r.Post("/sessions/refresh", hdlr.RefreshHandler)
