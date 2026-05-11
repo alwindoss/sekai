@@ -90,7 +90,7 @@ func (ph *PageHandler) LoginFormHandler(w http.ResponseWriter, r *http.Request) 
 		Expires:  expirationTime,
 		HttpOnly: true,
 		SameSite: http.SameSiteLaxMode,
-		Secure:   true,
+		// Secure:   true,
 	})
 
 	// http.RedirectHandler("/pages/welcome", http.StatusPermanentRedirect)
